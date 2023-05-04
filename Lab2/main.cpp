@@ -247,8 +247,10 @@ int main()
 				sort_flag = true;
 				break;
 			case 3:
-				SetConsoleTextAttribute(hStdOut, DEF_COL);
-				exit(0);
+				sorted_vec = vec;
+				results = shaker_sort(sorted_vec);
+				sort_flag = true;
+				break;
 			}
 			break;
 		default:

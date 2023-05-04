@@ -19,9 +19,7 @@ stats bubble_sort(vector<T>& vec)
 			if (*it > *(it + 1))
 			{
 				statistic.copy_count++;
-				T tmp = *it;
-				*it = *(it + 1);
-				*(it + 1) = tmp;
+				swap(*it, *(it + 1));
 			}
 		}
 	}
