@@ -114,7 +114,7 @@ bool remove_element(vector<int>& vec)
 		else if (choice == 2) return false;
 		else
 		{
-			for (std::vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+			for (vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
 			{
 				if (*iter == value)
 				{
