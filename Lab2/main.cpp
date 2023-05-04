@@ -4,6 +4,7 @@
 #include<conio.h>
 #include<string>
 #include<vector>
+#include"sort_funcs.hpp"
 #define ESC 27
 #define UP 72
 #define DOWN 80
@@ -14,6 +15,7 @@
 #define GREEN 10
 using namespace std;
 HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+
 
 void ConsoleCursorVisible(bool show, short size)
 {
@@ -88,7 +90,7 @@ int incorect_insert(const int mistake)
 	}
 }
 
-void add_element(vector<int>& vec)
+bool remove_element(vector<int>& vec)
 {
 	double value;
 	while (1)
@@ -109,26 +111,70 @@ void add_element(vector<int>& vec)
 		}
 		if (double(int(value)) != value) choice = incorect_insert(2);
 		if (choice == 1) continue;
-		else if (choice == 2) return;
-		else vec.push_back(value);
-		return;
+		else if (choice == 2) return false;
+		else
+		{
+			for (std::vector<int>::iterator iter = vec.begin(); iter != vec.end(); ++iter)
+			{
+				if (*iter == value)
+				{
+					vec.erase(iter);
+					return true;
+				}
+			}
+			return false;
+		}
 	}
-
-
 }
 
+bool add_element(vector<int>& vec)
+{
+	double value;
+	while (1)
+	{
+		system("cls");
+		ConsoleCursorVisible(true, 100);
+		SetConsoleTextAttribute(hStdOut, DEF_COL);
+		cout << "Введите значение: ";
+		int choice = 0;
+		while (!(cin >> value) || (cin.peek() != '\n'))
+		{
+			cin.clear();
+			while (cin.get() != '\n');
+
+			choice = incorect_insert(1);
+
+			break;
+		}
+		if (double(int(value)) != value) choice = incorect_insert(2);
+		if (choice == 1) continue;
+		else if (choice == 2) return false;
+		else
+		{
+			vec.push_back(value);
+			return true;
+		}
+	}
+}
+
+
+//emplate<typename T> и другое главное меню перед этим с выборот типов данных
 int main()
 {
 	setlocale(0, "Rus");
-	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Закончить (ESC)" };
+	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Провести тесты","Закончить (ESC)"};
 	int active_menu = 0;
-	ConsoleCursorVisible(false, 100);
 	vector<int> vec;
+	vector<int> sorted_vec;
+	bool sort_flag = false;
+	stats results;
+	bool done;
 	char ch;
 	while (true)
 	{
 		
 		system("cls");
+		ConsoleCursorVisible(false, 100);
 
 		if (vec.begin() == vec.end())
 		{
@@ -141,7 +187,19 @@ int main()
 			SetConsoleTextAttribute(hStdOut, GREEN);
 			cout << "Вектор: ";
 			print_vec(vec);
-			cout << endl << endl;
+			cout << endl;
+			if (sort_flag)
+			{
+				SetConsoleTextAttribute(hStdOut, GREEN);
+				print_vec(sorted_vec);
+				cout << endl << endl;
+			}
+			else
+			{
+				SetConsoleTextAttribute(hStdOut, RED);
+				cout << "Вектор пока не отсортирован";
+				cout << endl << endl;
+			}
 			SetConsoleTextAttribute(hStdOut, DEF_COL);
 		}
 
@@ -158,6 +216,7 @@ int main()
 		switch (ch)
 		{
 		case ESC:
+			SetConsoleTextAttribute(hStdOut, DEF_COL);
 			exit(0);
 
 
@@ -175,13 +234,17 @@ int main()
 			switch (active_menu)
 			{
 			case 0:
-				add_element(vec);
+				done = add_element( vec );
+				if( done ) sort_flag = false;
 				break;
 			case 1:
-				//Speed_test_menu();
+				done = remove_element(vec);
+				if (done) sort_flag = false;
 				break;
 			case 2:
-				//Task_menu();
+				sorted_vec = vec;
+				results = bubble_sort(sorted_vec);
+				sort_flag = true;
 				break;
 			case 3:
 				SetConsoleTextAttribute(hStdOut, DEF_COL);
