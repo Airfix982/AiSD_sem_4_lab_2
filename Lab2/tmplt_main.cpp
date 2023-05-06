@@ -4,6 +4,8 @@
 #include<conio.h>
 #include<string>
 #include<vector>
+#include<fstream>
+#include<time.h>
 #include"sort_funcs.hpp"
 #define ESC 27
 #define UP 72
@@ -295,8 +297,123 @@ bool add_element(vector<T>& vec)
 	return true;
 }
 
+void reverse_sort(vector<int>& vec)//from bigger to smaller
+{
+	for (int i = 0; i < vec.size(); i++)
+	{
+		for (auto it = vec.begin(); it < vec.end() - 1; it++)
+		{
+			if (*it < *(it + 1))
+			{
+				swap(*it, *(it + 1));
+			}
+		}
+	}
+}
 
-//emplate<typename T> и другое главное меню перед этим с выборот типов данных
+size_t Rand_val() {
+	static size_t x = 0;
+	x = (1021 * x + 24631) % 116640;
+	return x;
+}
+
+stats tests()
+{
+	for (int k = 1000; k < 100001; k += 1000)
+	{
+		for (int j = 0; j < 100; j++)
+		{
+			vector<int> vec;
+			for (int i = 0; i < k; i++)
+			{
+				vec.push_back((int)(Rand_val()));
+			}
+			vector<int> sorting_vec = vec;
+			clock_t start = clock();
+			stats st = bubble_sort(sorting_vec);
+			clock_t end = clock();
+			double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_b("bubble_sort_avg.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			sorting_vec = vec;
+			start = clock();
+			st = shaker_sort(sorting_vec);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_s("shaker_sort_avg.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			sorting_vec = vec;
+			start = clock();
+			st = merge_sort(sorting_vec);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_m("merge_sort_avg.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+
+
+			start = clock();
+			st = bubble_sort(sorting_vec);
+			end = clock();
+			double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_b("bubble_sort_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			start = clock();
+			st = shaker_sort(sorting_vec);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_s("shaker_sort_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			start = clock();
+			st = merge_sort(sorting_vec);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_m("merge_sort_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+
+
+			reverse_sort(sorting_vec);
+			vector<int> rev_sorted = sorting_vec;
+			start = clock();
+			st = bubble_sort(rev_sorted);
+			end = clock();
+			double vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_b("bubble_sort_reverse_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			rev_sorted = sorting_vec;
+			start = clock();
+			st = shaker_sort(rev_sorted);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_s("shaker_sort_reverse_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+
+			rev_sorted = sorting_vec;
+			start = clock();
+			st = merge_sort(rev_sorted);
+			end = clock();
+			vec_time = (double)(end - start) / CLOCKS_PER_SEC;
+			ofstream outfile_m("merge_sort_reverse_sorted.csv");
+			outfile_b << st.comparison_count << "," << st.copy_count << "," << vec_time;
+			outfile_b.close();
+		}
+	}
+}
+
 template<typename T>
 void main_menu_tmplt()
 {
@@ -395,6 +512,10 @@ void main_menu_tmplt()
 				sorted_vec = vec;
 				results = merge_sort(sorted_vec);
 				sort_flag = true;
+				break;
+			case 4:
+				results = tests();
+
 				break;
 			}
 			break;
