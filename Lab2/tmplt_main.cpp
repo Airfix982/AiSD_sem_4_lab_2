@@ -301,7 +301,7 @@ template<typename T>
 void main_menu_tmplt()
 {
 	
-	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Провести тесты","назад (ESC)" };
+	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Сортировка слиянием","Провести тесты","назад (ESC)" };
 	int active_menu = 0;
 	vector<T> vec;
 	vector<T> sorted_vec;
@@ -389,6 +389,11 @@ void main_menu_tmplt()
 			case 3:
 				sorted_vec = vec;
 				results = shaker_sort(sorted_vec);
+				sort_flag = true;
+				break;
+			case 4:
+				sorted_vec = vec;
+				results = merge_sort(sorted_vec);
 				sort_flag = true;
 				break;
 			}

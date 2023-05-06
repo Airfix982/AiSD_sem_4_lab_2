@@ -162,7 +162,7 @@
 //int main()
 //{
 //	setlocale(0, "Rus");
-//	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Провести тесты","Закончить (ESC)"};
+//	string main_menu[] = { "Добавьть элемент","Удалить элемент","Сортировкка пузырьком","Шейкерная сортировка","Сортировка слиянием","Провести тесты","Закончить (ESC)"};
 //	int active_menu = 0;
 //	vector<int> vec;
 //	vector<int> sorted_vec;
@@ -250,6 +250,11 @@
 //			case 3:
 //				sorted_vec = vec;
 //				results = shaker_sort(sorted_vec);
+//				sort_flag = true;
+//				break;
+//			case 4:
+//				sorted_vec = vec;
+//				results = merge_sort(sorted_vec);
 //				sort_flag = true;
 //				break;
 //			}
