@@ -8,7 +8,7 @@
 using namespace std;
 
 template<typename T>
-void merge(vector<T>& vec, int left, int mid, int right, stats statistic)
+void merge(vector<T>& vec, int left, int mid, int right, stats& statistic)
 {
 	vector<T> left_array(mid - left + 1);
 	vector<T> right_array(right - mid);
@@ -25,10 +25,11 @@ void merge(vector<T>& vec, int left, int mid, int right, stats statistic)
 	int i = 0, j = 0, k = left;
 	while (i < left_array.size() && j < right_array.size())
 	{
+
+		statistic.comparison_count++;
 		if (left_array[i] < right_array[j])
 		{
 			statistic.copy_count++;
-			statistic.comparison_count++;
 			vec[k++] = left_array[i++];
 		}
 		else
@@ -50,8 +51,10 @@ void merge(vector<T>& vec, int left, int mid, int right, stats statistic)
 }
 
 template<typename T>
-void merge_sort(vector<T>& vec, int left, int right, stats statistic)
+void merge_sort(vector<T>& vec, int left, int right, stats& statistic)
 {
+
+	statistic.comparison_count++;
 	if (left >= right)
 	{
 		return;
@@ -63,9 +66,9 @@ void merge_sort(vector<T>& vec, int left, int right, stats statistic)
 }
 
 template<typename T>
-stats merge_sort(vector<T>& vec)
+stats merge_sort_a(vector<T>& vec)
 {
 	stats statistic;
-	merge_sort(vec, 0, vec.size() - 1, statistic);
+	if(vec.begin() != vec.end())merge_sort(vec, 0, vec.size() - 1, statistic);
 	return statistic;
 }

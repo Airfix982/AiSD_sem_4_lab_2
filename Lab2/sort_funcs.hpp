@@ -21,13 +21,13 @@ template<typename T>
 stats shaker_sort(vector<T>& vec);
 
 template<typename T>
-void merge(vector<T>& vec, int left, int mid, int right, stats statistic);
+void merge(vector<T>& vec, int left, int mid, int right, stats& statistic);
 
 template<typename T>
-void merge_sort(vector<T>& vec, int left, int right, stats statistic);
+void merge_sort(vector<T>& vec, int left, int right, stats& statistic);
 
 template<typename T>
-stats merge_sort(vector<T>& vec);
+stats merge_sort_a(vector<T>& vec);
 
 class Test_class
 {
@@ -87,15 +87,15 @@ template stats shaker_sort(vector<float>& vec);
 template stats shaker_sort(vector<string>& vec);
 template stats shaker_sort(vector<Test_class>& vec);
 
-template void merge(vector<int>& vec, int left, int mid, int right, stats statistic);
-template void merge_sort(vector<int>& vec, int left, int right, stats statistic);
-template stats merge_sort(vector<int>& vec);
-template void merge(vector<float>& vec, int left, int mid, int right, stats statistic);
-template void merge_sort(vector<float>& vec, int left, int right, stats statistic);
-template stats merge_sort(vector<float>& vec);
-template void merge(vector<string>& vec, int left, int mid, int right, stats statistic);
-template void merge_sort(vector<string>& vec, int left, int right, stats statistic);
-template stats merge_sort(vector<string>& vec);
-template void merge(vector<Test_class>& vec, int left, int mid, int right, stats statistic);
-template void merge_sort(vector<Test_class>& vec, int left, int right, stats statistic);
-template stats merge_sort(vector<Test_class>& vec);
+template void merge(vector<int>& vec, int left, int mid, int right, stats& statistic);
+template void merge_sort(vector<int>& vec, int left, int right, stats& statistic);
+template stats merge_sort_a(vector<int>& vec);
+template void merge(vector<float>& vec, int left, int mid, int right, stats& statistic);
+template void merge_sort(vector<float>& vec, int left, int right, stats& statistic);
+template stats merge_sort_a(vector<float>& vec);
+template void merge(vector<string>& vec, int left, int mid, int right, stats& statistic);
+template void merge_sort(vector<string>& vec, int left, int right, stats& statistic);
+template stats merge_sort_a(vector<string>& vec);
+template void merge(vector<Test_class>& vec, int left, int mid, int right, stats& statistic);
+template void merge_sort(vector<Test_class>& vec, int left, int right, stats& statistic);
+template stats merge_sort_a(vector<Test_class>& vec);

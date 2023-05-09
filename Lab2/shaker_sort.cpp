@@ -11,36 +11,36 @@ template<typename T>
 stats shaker_sort(vector<T>& vec)
 {
 	stats statistic;
-	auto left = vec.begin();
-	auto right = vec.end()-1;
+	int left = 0;
+	int right = vec.size()-1;
 	bool swapped = true;
 	while(swapped)
 	{
 		swapped = false;
-		for (auto it = left; it != right; ++it)
+		for (int i = left; i < right; i++)
 		{
 			statistic.comparison_count++;
-			if (*it > *(it + 1))
+			if (vec[i] > vec[i + 1])
 			{
 				statistic.copy_count++;
-				iter_swap(it, it + 1);
+				swap(vec[i], vec[i+1]);
 				swapped = true;
 			}
 		}
 		if (!swapped) break;
-		--right;
 		swapped = false;
-		for (auto it = right; it != left; --it)
+		for (int i = right-1; i>=left;i--)
 		{
 			statistic.comparison_count++;
-			if (*it < *(it - 1))
+			if (vec[i] > vec[i + 1])
 			{
 				statistic.copy_count++;
-				iter_swap(it, it - 1);
+				swap(vec[i], vec[i + 1]);
 				swapped = true;
 			}
 		}
 		left++;
+		right--;
 	}
 	return statistic;
 };

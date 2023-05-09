@@ -6,6 +6,8 @@
 #include<vector>
 #include<fstream>
 #include<time.h>
+#include<cstdlib>
+#include<ctime>
 #include"sort_funcs.hpp"
 #define ESC 27
 #define UP 72
@@ -328,11 +330,52 @@ void reverse_sort(vector<int>& vec)//from bigger to smaller
 	}
 }
 
+void rig_sort(vector<int>& vec)//from smaller to bigger
+{
+	auto left = vec.begin();
+	auto right = vec.end() - 1;
+	bool swapped = true;
+	while (swapped)
+	{
+		swapped = false;
+		for (auto it = left; it != right; ++it)
+		{
+			if (*it > *(it + 1))
+			{
+				iter_swap(it, it + 1);
+				swapped = true;
+			}
+		}
+		if (!swapped) break;
+		--right;
+		swapped = false;
+		for (auto it = right; it != left; --it)
+		{
+			if (*it < *(it - 1))
+			{
+				iter_swap(it, it - 1);
+				swapped = true;
+			}
+		}
+		left++;
+	}
+}
+
 size_t Rand_val() {
 	static size_t x = 0;
 	x = (1021 * x + 24631) % 116640;
 	return x;
 }
+
+
+
+
+
+
+
+
+
+
 
 void tests()
 {
@@ -388,106 +431,119 @@ void tests()
 		double mrg_rev_time = 0;
 		/*for (int j = 0; j < 100; j++)
 		{*/
-			//cout << j << " ";//в среднем по 100 считать только для первых, отсальные нахрен не надо
-			vector<int> vec;
-			for (int i = 0; i < k; i++)
-			{
-				vec.push_back((int)(Rand_val()));
-			}
-
-			cout << "vec is filled" << endl;
-
-			vector<int> sorting_vec = vec;
-			clock_t start = clock();
-			stats st = bubble_sort(sorting_vec);
-			clock_t end = clock();
-			bbl_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
-			bbl_avg_cmpr += (double)st.comparison_count;
-			bbl_avg_copy += (double)st.copy_count;
-			cout << "vec is bubble sorted" << endl;
-
-			sorting_vec = vec;
-			start = clock();
-			st = shaker_sort(sorting_vec);
-			end = clock();
-			shk_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
-			shk_avg_cmpr += (double)st.comparison_count;
-			shk_avg_copy += (double)st.copy_count;
-			cout << "vec is shaker sorted" << endl;
-
-			sorting_vec = vec;
-			start = clock();
-			st = merge_sort(sorting_vec);
-			end = clock();
-			mrg_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
-			mrg_avg_cmpr += (double)st.comparison_count;
-			mrg_avg_copy += (double)st.copy_count;
-			cout << "vec is merge sorted" << endl;
-
-
-		//}
-		/*vector<int> vec;
+		//cout << j << " ";//в среднем по 100 считать только для первых, отсальные нахрен не надо
+		srand(time(0));
+		vector<int> vec;
 		for (int i = 0; i < k; i++)
 		{
-			vec.push_back((int)(Rand_val()));
-		}*/
-		//vector<int> sorting_vec = vec;
-		/*clock_t start, end;
-		stats st;*/
+			vec.push_back((int)rand());
+		}
 
-			start = clock();
-			st = bubble_sort(sorting_vec);
-			end = clock();
-			bbl_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
-			bbl_srtd_cmpr += (double)st.comparison_count;
-			bbl_srtd_copy += (double)st.copy_count;
-			cout << "sorted vec is bubble sorted" << endl;
-
-			start = clock();
-			st = shaker_sort(sorting_vec);
-			end = clock();
-			shk_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
-			shk_srtd_cmpr += (double)st.comparison_count;
-			shk_srtd_copy += (double)st.copy_count;
-			cout << "sorted vec is shaker sorted" << endl;
-
-			start = clock();
-			st = merge_sort(sorting_vec);
-			end = clock();
-			mrg_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
-			mrg_srtd_cmpr += (double)st.comparison_count;
-			mrg_srtd_copy += (double)st.copy_count;
-			cout << "sorted vec is merge sorted" << endl;
+		cout << "vec is filled" << endl;
 
 
 
-			reverse_sort(sorting_vec);
-			vector<int> rev_sorted = sorting_vec;
-			start = clock();
-			st = bubble_sort(rev_sorted);
-			end = clock();
-			bbl_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
-			bbl_rev_cmpr += (double)st.comparison_count;
-			bbl_rev_copy += (double)st.copy_count;
-			cout << "reverse vec is bubble sorted" << endl;
-			
-			rev_sorted = sorting_vec;
-			start = clock();
-			st = shaker_sort(rev_sorted);
-			end = clock();
-			shk_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
-			shk_rev_cmpr += (double)st.comparison_count;
-			shk_rev_copy += (double)st.copy_count;
-			cout << "reverse vec is sheker sorted" << endl;
 
-			rev_sorted = sorting_vec;
-			start = clock();
-			st = merge_sort(rev_sorted);
-			end = clock();
-			mrg_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
-			mrg_rev_cmpr += (double)st.comparison_count;
-			mrg_rev_copy += (double)st.copy_count;
-			cout << "reverse vec is merge sorted" << endl;
+
+
+
+
+
+
+
+
+
+
+		vector<int> sorting_vec = vec;
+
+
+		clock_t start = clock();
+		stats st = bubble_sort(sorting_vec);
+		clock_t end = clock();
+		bbl_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
+		bbl_avg_cmpr += (double)st.comparison_count;
+		bbl_avg_copy += (double)st.copy_count;
+		cout << "vec is bubble sorted" << endl;
+
+
+		sorting_vec = vec;
+		start = clock();
+		st = shaker_sort(sorting_vec);
+		end = clock();
+		shk_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
+		shk_avg_cmpr += (double)st.comparison_count;
+		shk_avg_copy += (double)st.copy_count;
+		cout << "vec is shaker sorted" << endl;
+		sorting_vec = vec;
+		start = clock();
+		st = merge_sort_a(sorting_vec);
+		end = clock();
+		mrg_avg_time += (double)(end - start) / CLOCKS_PER_SEC;
+		mrg_avg_cmpr += (double)st.comparison_count;
+		mrg_avg_copy += (double)st.copy_count;
+		cout << "vec is merge sorted" << endl;
+
+		sorting_vec = vec;
+		rig_sort(sorting_vec);
+		start = clock();
+		st = bubble_sort(sorting_vec);
+		end = clock();
+		bbl_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
+		bbl_srtd_cmpr += (double)st.comparison_count;
+		bbl_srtd_copy += (double)st.copy_count;
+		cout << "sorted vec is bubble sorted" << endl;
+
+
+		sorting_vec = vec;
+		rig_sort(sorting_vec);
+		start = clock();
+		st = shaker_sort(sorting_vec);
+		end = clock();
+		shk_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
+		shk_srtd_cmpr += (double)st.comparison_count;
+		shk_srtd_copy += (double)st.copy_count;
+		cout << "sorted vec is shaker sorted" << endl;
+
+		sorting_vec = vec;
+		rig_sort(sorting_vec);
+		start = clock();
+		st = merge_sort_a(sorting_vec);
+		end = clock();
+		mrg_srtd_time += (double)(end - start) / CLOCKS_PER_SEC;
+		mrg_srtd_cmpr += (double)st.comparison_count;
+		mrg_srtd_copy += (double)st.copy_count;
+		cout << "sorted vec is merge sorted" << endl;
+
+
+		sorting_vec = vec;
+		reverse_sort(sorting_vec);
+		start = clock();
+		st = bubble_sort(sorting_vec);
+		end = clock();
+		bbl_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
+		bbl_rev_cmpr += (double)st.comparison_count;
+		bbl_rev_copy += (double)st.copy_count;
+		cout << "reverse vec is bubble sorted" << endl;
+
+		sorting_vec = vec;
+		reverse_sort(sorting_vec);
+		start = clock();
+		st = shaker_sort(sorting_vec);
+		end = clock();
+		shk_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
+		shk_rev_cmpr += (double)st.comparison_count;
+		shk_rev_copy += (double)st.copy_count;
+		cout << "reverse vec is sheker sorted" << endl;
+
+		sorting_vec = vec;
+		reverse_sort(sorting_vec);
+		start = clock();
+		st = merge_sort_a(sorting_vec);
+		end = clock();
+		mrg_rev_time += (double)(end - start) / CLOCKS_PER_SEC;
+		mrg_rev_cmpr += (double)st.comparison_count;
+		mrg_rev_copy += (double)st.copy_count;
+		cout << "reverse vec is merge sorted" << endl;
 
 		outfile_b1 << bbl_avg_time/100 << "," << bbl_avg_cmpr/100 << "," << bbl_avg_copy/100 << "\n";
 		cout << "bubble is written" << endl;
@@ -620,11 +676,12 @@ void main_menu_tmplt()
 			case 3:
 				sorted_vec = vec;
 				results = shaker_sort(sorted_vec);
+				cout << results.copy_count;
 				sort_flag = true;
 				break;
 			case 4:
 				sorted_vec = vec;
-				results = merge_sort(sorted_vec);
+				results = merge_sort_a(sorted_vec);
 				sort_flag = true;
 				break;
 			case 5:
