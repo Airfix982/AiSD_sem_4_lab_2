@@ -40,9 +40,9 @@ public:
 	bool operator == (const Test_class& new_one) const;
 	bool operator > (const Test_class& new_one) const;
 	bool operator < (const Test_class& new_one) const;
-	string get_str() const;
+	string getstr() const;
 	float get_float() const;
-	void set_str(string str);// cout << отдельно перегружать
+	void set_str(string str);
 	void set_float(float fl);
 	friend istream& operator >> (istream& input, Test_class& new_one)
 	{
